@@ -1,19 +1,22 @@
 ﻿using MassTransit;
 using Trumpee.MassTransit.Messages.Notifications;
 
-namespace TransportService.Extensions;
+namespace TransportService.Services;
 
-public static class
-    SchedulingService
+public interface ISchedulingService
 {
-    public static async Task ProcessNotificationCommand<T>(
-        this ConsumeContext<T> ctx, Notification notification) where T : class
+    Task ProcessNotificationCommand<T>(
+        ConsumeContext<T> ctx, Notification notification) where T : class;
+}
+public class SchedulingService : ISchedulingService
+{
+    public async Task ProcessNotificationCommand<T>(
+        ConsumeContext<T> ctx, Notification notification) where T : class
     {
         var expectedDeliveryTime = notification.Timestamp?.DateTime;
         var priority = (byte)notification.Priority!;
 
         var endpoint = new Uri($"queue:{notification.Recipient.Channel}");
-
         var sendPipe = Pipe.Execute<SendContext<Notification>>(sendContext =>
         {
             sendContext.SetPriority(priority);

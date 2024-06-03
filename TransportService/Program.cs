@@ -1,9 +1,12 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using TransportService;
+using TransportService.Consumers;
+using TransportService.Services;
 using Trumpee.MassTransit;
 using Trumpee.MassTransit.Configuration;
 
@@ -27,6 +30,8 @@ static IHostBuilder CreateHostBuilder(string[] args)
         .UseSerilog()
         .ConfigureServices((host, services) =>
         {
+            services.AddScoped<ISchedulingService, SchedulingService>();
+
             var rabbitTopologyBuilder = new RabbitMqTransportConfigurator();
             rabbitTopologyBuilder.AddExternalConfigurations(x =>
             {

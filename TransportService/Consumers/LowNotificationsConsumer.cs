@@ -1,11 +1,12 @@
 ﻿using MassTransit;
 using Serilog;
-using TransportService.Extensions;
+using TransportService.Services;
 using Trumpee.MassTransit.Messages.Notifications;
 
-namespace TransportService;
+namespace TransportService.Consumers;
 
-internal class CriticalNotificationsConsumer : IConsumer<Notification>
+internal class LowNotificationsConsumer(
+    ISchedulingService schedulingService) : IConsumer<Notification>
 {
     public async Task Consume(ConsumeContext<Notification> context)
     {
@@ -15,6 +16,6 @@ internal class CriticalNotificationsConsumer : IConsumer<Notification>
             "Consumer {ConsumerName} received message. Message CorrelationID is {CorrelationId}",
             nameof(MediumNotificationsConsumer), context.CorrelationId);
 
-        await context.ProcessNotificationCommand(notification);
+        await schedulingService.ProcessNotificationCommand(context, notification);
     }
 }
