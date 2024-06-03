@@ -1,9 +1,10 @@
 ﻿using MassTransit;
 using Trumpee.MassTransit.Messages.Notifications;
 
-namespace TransportHub.Extensions;
+namespace TransportService.Extensions;
 
-public static class SchedulingService
+public static class
+    SchedulingService
 {
     public static async Task ProcessNotificationCommand<T>(
         this ConsumeContext<T> ctx, Notification notification) where T : class

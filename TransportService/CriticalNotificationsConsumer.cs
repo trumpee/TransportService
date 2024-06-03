@@ -1,9 +1,9 @@
 ﻿using MassTransit;
 using Serilog;
-using TransportHub.Extensions;
+using TransportService.Extensions;
 using Trumpee.MassTransit.Messages.Notifications;
 
-namespace TransportHub;
+namespace TransportService;
 
 internal class CriticalNotificationsConsumer : IConsumer<Notification>
 {

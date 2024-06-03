@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
-using TransportHub;
+using TransportService;
 using Trumpee.MassTransit;
 using Trumpee.MassTransit.Configuration;
 
